@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  @keyframes wave-animation {
+    0% {
+      transform: rotate(0deg);
+    }
+    15% {
+      transform: rotate(14deg);
+    }
+    30% {
+      transform: rotate(-8deg);
+    }
+    40% {
+      transform: rotate(14deg);
+    }
+    50% {
+      transform: rotate(-4deg);
+    }
+    60% {
+      transform: rotate(10deg);
+    }
+    70% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  .waving-hand {
+    animation-name: wave-animation;
+    animation-duration: 2.5s;
+    animation-iteration-count: infinite;
+    transform-origin: 70% 70%;
+    display: inline-block;
+  }
+  
+  .hero_tag {
+    @apply text-center xl:text-6xl md:text-5xl sm:text-4xl text-3xl font-sans font-black !leading-normal;
+  }
+}
+
+.Render-container {
+  background: "#1e2025";
+  border-radius: 20px;
+  /* box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); */
+  position: relative;
+  overflow: hidden;
+}
+
+
+
