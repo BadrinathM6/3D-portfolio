@@ -1,17 +1,8 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Mail, Linkedin, Github } from "lucide-react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
-
-const RenderModel = dynamic(() => import("./RenderModel"), {
-  ssr: false,
-});
-
-const HackerRoom = dynamic(() => import("./modals/Laptop"), {
-  ssr: false,
-});
 
 const MainSection = () => {
   const sidebarVariants = {
@@ -35,7 +26,7 @@ const MainSection = () => {
     },
   };
 
-  const RevealText = ({ children, delay = 0, className }) => {
+  const RevealText = React.memo(({ children, delay = 0, className }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, {
       once: true,
@@ -79,7 +70,7 @@ const MainSection = () => {
         </motion.div>
       </div>
     );
-  };
+  });
 
   return (
     <div
@@ -257,4 +248,4 @@ const MainSection = () => {
   );
 };
 
-export default MainSection;
+export default React.memo(MainSection);

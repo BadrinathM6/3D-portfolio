@@ -2,7 +2,11 @@
 
 import React, { Suspense } from "react";
 import { Environment, OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import dynamic from "next/dynamic";
+// import { Canvas } from "@react-three/fiber";
+const LazyCanvas = dynamic(() =>
+  import("@react-three/fiber").then((mod) => mod.Canvas)
+);
 import { motion, AnimatePresence } from "framer-motion";
 import CanvasLoader from "./Loader";
 
@@ -14,7 +18,7 @@ const RenderModelMan = ({ children }) => {
       className="w-full h-[600px] md:h-[500px] md:mb-0 lg:h-[600px] lg:mb-0 relative rounded-lg overflow-hidden"
     >
       <AnimatePresence mode="wait">
-        <Canvas
+        <LazyCanvas
           camera={{
             position: [0, 0, window.innerWidth < 768 ? 7 : 5],
             fov: window.innerWidth < 768 ? 85 : 75,
@@ -39,7 +43,7 @@ const RenderModelMan = ({ children }) => {
               minPolarAngle={Math.PI / 2}
             />
           </Suspense>
-        </Canvas>
+        </LazyCanvas>
       </AnimatePresence>
     </motion.div>
   );

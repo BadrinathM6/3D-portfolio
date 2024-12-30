@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   motion,
   useScroll,
@@ -16,14 +16,14 @@ const AboutSection = () => {
   // Parallax effects for image
   const imageY = useTransform(scrollYProgress, [0, 1], ["50px", "0px"]);
 
-  const skills = [
+  const skills = useMemo(() => [
     "JavaScript (ES6+)",
     "Next.js",
     "Tailwind CSS",
     "React",
     "Django",
     "Bootstrap 5",
-  ];
+  ], []);
 
   const textVariants = {
     initial: { opacity: 0, y: 20 },
@@ -113,10 +113,10 @@ const AboutSection = () => {
           {/* Text Content */}
           <motion.div
             className="w-full lg:w-3/5 space-y-8"
-            initial="hidden"
-            whileInView="visible"
+            // initial="hidden"
+            // whileInView="visible"
             // viewport={{ once: true }}
-            variants={textVariants}
+            // variants={textVariants}
           >
             <RevealText
               className="text-lighttextcolor font-sans text-lg leading-relaxed"
@@ -174,10 +174,10 @@ const AboutSection = () => {
 
             {/* Skills */}
             <motion.div
-              initial="hidden"
-              whileInView="visible"
+              // initial="hidden"
+              // whileInView="visible"
               // viewport={{ once: true }}
-              variants={textVariants}
+              // variants={textVariants}
               className="pt-4"
             >
               <RevealText
@@ -260,4 +260,4 @@ const AboutSection = () => {
   );
 };
 
-export default AboutSection;
+export default React.memo(AboutSection);

@@ -190,6 +190,7 @@ const EntryAnimation = () => {
       </div>
 
       <div className="mx-auto w-full h-[400px] md:h-[500px] lg:h-[600px] Render-container relative">
+        
         <div className="h-full absolute top-[30%] md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <RenderModelMan>
             <Man />
@@ -224,4 +225,4 @@ const EntryAnimation = () => {
   );
 };
 
-export default EntryAnimation;
+export default React.memo(EntryAnimation);

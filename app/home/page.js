@@ -8,7 +8,7 @@ import Header from "@/components/Header";
 const MainSection = dynamic(() => import("@/components/MainSection"));
 const AboutSection = dynamic(() => import("@/components/AboutSection"));
 const EntryAnimation = dynamic(() => import("@/components/EntryAnimation"));
-
+const Projects = dynamic(() => import("@/components/ProjectSection"));
 const Portfolio = () => {
   return (
     <main>
@@ -17,6 +17,7 @@ const Portfolio = () => {
         <EntryAnimation />
         <MainSection />
         <AboutSection />
+        <Projects />
       </div>
     </main>
   );
