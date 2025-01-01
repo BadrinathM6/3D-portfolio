@@ -14,6 +14,7 @@ const config: Config = {
         textcolor: "#00c2b8",
         anothertextcolor: "#ccd6f6",
         lighttextcolor: "#8892b0",
+        submitcolor: "#008f88"
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],
