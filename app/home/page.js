@@ -1,15 +1,20 @@
-"use client";
-
 import React from "react";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
-
+import EntryAnimation from "@/components/EntryAnimation";
 // Correct dynamic imports
-const MainSection = dynamic(() => import("@/components/MainSection"));
-const AboutSection = dynamic(() => import("@/components/AboutSection"));
-const EntryAnimation = dynamic(() => import("@/components/EntryAnimation"));
-const Projects = dynamic(() => import("@/components/ProjectSection"));
-const ContactSection = dynamic(() => import("@/components/ContactSection"));
+const MainSection = dynamic(() => import("@/components/MainSection"), {
+  ssr: false,
+});
+const AboutSection = dynamic(() => import("@/components/AboutSection"), {
+  ssr: false,
+});
+const Projects = dynamic(() => import("@/components/ProjectSection"), {
+  ssr: false,
+});
+const ContactSection = dynamic(() => import("@/components/ContactSection"), {
+  ssr: false,
+});
 
 const Portfolio = () => {
   return (

@@ -16,25 +16,19 @@ const AboutSection = () => {
   // Parallax effects for image
   const imageY = useTransform(scrollYProgress, [0, 1], ["50px", "0px"]);
 
-  const skills = useMemo(() => [
-    "JavaScript (ES6+)",
-    "Next.js",
-    "Tailwind CSS",
-    "React",
-    "Django",
-    "Bootstrap 5",
-  ], []);
+  const skills = useMemo(
+    () => [
+      "JavaScript (ES6+)",
+      "Next.js",
+      "Tailwind CSS",
+      "React",
+      "Django",
+      "Bootstrap 5",
+    ],
+    []
+  );
 
-  const textVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
-  const RevealText =  React.memo(({ children, delay = 0, className }) => {
+  const RevealText = React.memo(({ children, className }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, {
       once: true,
@@ -48,7 +42,7 @@ const AboutSection = () => {
         mainControls.start("visible");
         slideControls.start("visible");
       }
-    }, [isInView]);
+    }, [isInView, mainControls, slideControls]);
 
     return (
       <div ref={ref} className="relative overflow-hidden">
@@ -79,6 +73,8 @@ const AboutSection = () => {
       </div>
     );
   });
+
+  RevealText.displayName = "RevealText";
 
   return (
     <div
@@ -122,13 +118,14 @@ const AboutSection = () => {
               className="text-lighttextcolor font-sans text-lg leading-relaxed"
               delay={0.4}
             >
-              I'm a <span className="text-textcolor">passionate developer</span>{" "}
-              who believes in pushing boundaries until perfection is achieved .
-              When I'm deeply invested in a project,{" "}
+              I&#39;m a{" "}
+              <span className="text-textcolor">passionate developer</span> who
+              believes in pushing boundaries until perfection is achieved . When
+              I&#39;m deeply invested in a project,{" "}
               <span className="text-textcolor">
                 sleep becomes secondary to achieving the perfect solution
               </span>{" "}
-              – it's not just about completing tasks, it's about{" "}
+              – it&#39;s not just about completing tasks, it&#39;s about{" "}
               <span className="text-textcolor">crafting excellence</span>.
             </RevealText>
 
@@ -148,8 +145,8 @@ const AboutSection = () => {
               <span className="text-textcolor">
                 commitment to thinking differently
               </span>
-              . I don't just implement solutions; I reimagine them, making them
-              more efficient and effective.
+              . I don&#39;t just implement solutions; I reimagine them, making
+              them more efficient and effective.
             </RevealText>
 
             <RevealText

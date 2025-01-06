@@ -1,6 +1,6 @@
-import React from 'react';
-import { Html, useProgress } from '@react-three/drei';
-import { motion } from 'framer-motion';
+import React from "react";
+import { Html, useProgress } from "@react-three/drei";
+import { motion } from "framer-motion";
 
 const LoaderContainer = ({ children }) => (
   <motion.div
@@ -9,7 +9,7 @@ const LoaderContainer = ({ children }) => (
     exit={{ opacity: 0, scale: 0.8 }}
     transition={{
       duration: 0.5,
-      ease: "easeOut"
+      ease: "easeOut",
     }}
     className="flex flex-col items-center justify-center"
   >
@@ -35,29 +35,46 @@ const LoadingSpinner = () => (
     transition={{
       duration: 1,
       ease: "linear",
-      repeat: Infinity
+      repeat: Infinity,
     }}
   />
 );
 
-const CanvasLoader = () => {
+const CanvasLoader = ({ modelProgress = 0 }) => {
   const { progress } = useProgress();
-  
+  const totalProgress = (progress + modelProgress) / 2;
+
+  const loadingStates = {
+    INITIALIZING: "Initializing...",
+    LOADING_MODEL: "Loading 3D Model...",
+    LOADING_TEXTURES: "Loading Textures...",
+    OPTIMIZING: "Optimizing...",
+    COMPLETE: "Complete!",
+  };
+
+  const getLoadingState = (progress) => {
+    if (progress < 25) return loadingStates.INITIALIZING;
+    if (progress < 50) return loadingStates.LOADING_MODEL;
+    if (progress < 75) return loadingStates.LOADING_TEXTURES;
+    if (progress < 100) return loadingStates.OPTIMIZING;
+    return loadingStates.COMPLETE;
+  };
+
   return (
-    <Html
-      as="div"
-      center
-    >
+    <Html as="div" center>
       <LoaderContainer>
         <LoadingSpinner />
-        <ProgressBar progress={progress} />
+        <ProgressBar progress={totalProgress} />
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="mt-4 text-sm font-semibold text-anothertextcolor"
         >
-          {progress.toFixed(0)}%
+          {totalProgress.toFixed(0)}%
+          <span className="block text-xs mt-1 text-gray-400">
+            {getLoadingState(totalProgress)}
+          </span>
         </motion.p>
       </LoaderContainer>
     </Html>

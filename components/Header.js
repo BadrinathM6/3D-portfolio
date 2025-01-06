@@ -223,7 +223,7 @@ const Header = () => {
             variants={menuVariants}
           >
             <nav className="flex flex-col p-8 space-y-6 h-full">
-              {navLinks.map((link, i) => (
+              {navLinks.map((link) => (
                 <motion.a
                   key={link.name}
                   href={link.href}

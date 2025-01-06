@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import { Mail, Linkedin, Github } from "lucide-react";
 import Image from "next/image";
@@ -26,7 +26,7 @@ const MainSection = () => {
     },
   };
 
-  const RevealText = React.memo(({ children, delay = 0, className }) => {
+  const RevealText = React.memo(({ children, className }) => {
     const ref = useRef(null);
     const isInView = useInView(ref, {
       once: true,
@@ -40,7 +40,7 @@ const MainSection = () => {
         mainControls.start("visible");
         slideControls.start("visible");
       }
-    }, [isInView]);
+    }, [isInView, mainControls, slideControls]);
 
     return (
       <div ref={ref} className="relative overflow-hidden">
@@ -72,9 +72,11 @@ const MainSection = () => {
     );
   });
 
+  RevealText.displayName = "RevealText";
+
   return (
     <div
-      className="relative h-full bg-background p-8 pt-2 lg:pt-[5.25rem] md:pt-[0.25rem]"
+      className="relative h-full bg-background p-8 pt-2 lg:pt-[2.25rem] md:pt-[0.25rem]"
       id="home"
     >
       {/* Fixed Sidebar */}

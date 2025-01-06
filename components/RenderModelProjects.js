@@ -7,7 +7,6 @@ const LazyCanvas = dynamic(() =>
   import("@react-three/fiber").then((mod) => mod.Canvas)
 );
 import CanvasLoader from "./Loader";
-
 const RenderModelProjects = ({ children }) => {
   return (
     <div className="w-full h-full">
@@ -21,10 +20,10 @@ const RenderModelProjects = ({ children }) => {
           far: 1000,
         }}
         performance={{ min: 0.5 }}
-        gl={{ 
+        gl={{
           powerPreference: "high-performance",
           antialias: true,
-          alpha: true
+          alpha: true,
         }}
       >
         <Suspense fallback={<CanvasLoader />}>

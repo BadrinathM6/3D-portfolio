@@ -1,11 +1,18 @@
+"use client";
+
 import React, { useRef, useEffect, useState, useCallback } from "react";
-import emailjs from "@emailjs/browser";
 import useAlert from "./Constants/useAlert.js";
 import Alert from "./Alert.js";
 import { motion, useAnimation, useInView } from "framer-motion";
 
+// Lazy load EmailJS
+const loadEmailJS = async () => {
+  const { default: emailjs } = await import('@emailjs/browser');
+  return emailjs;
+};
+
 // Separate RevealText into its own component
-const RevealText = React.memo(({ children, delay = 0, className }) => {
+const RevealText = React.memo(({ children, className }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
@@ -20,7 +27,7 @@ const RevealText = React.memo(({ children, delay = 0, className }) => {
       mainControls.start("visible");
       slideControls.start("visible");
     }
-  }, [isInView]);
+  }, [isInView, slideControls, mainControls]);
 
   return (
     <div ref={ref} className="relative overflow-hidden">
@@ -50,7 +57,9 @@ const RevealText = React.memo(({ children, delay = 0, className }) => {
   );
 });
 
-// Memoize the Input component to prevent unnecessary re-renders
+RevealText.displayName = "RevealText";
+
+// Memoize the Input component
 const Input = React.memo(
   ({ label, type = "text", name, value, onChange, placeholder, rows }) => (
     <div className="space-y-2">
@@ -82,11 +91,34 @@ const Input = React.memo(
   )
 );
 
+Input.displayName = "Input";
+
 const Contact = () => {
-  const formRef = useRef();
   const { alert, showAlert, hideAlert } = useAlert();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+
+  // Email validation function
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  // Cleanup effect for alerts
+  useEffect(() => {
+    let timeoutId;
+    
+    if (alert.show) {
+      timeoutId = setTimeout(() => {
+        hideAlert(false);
+      }, 3000);
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [alert.show, hideAlert]);
 
   // Memoize the handleChange function
   const handleChange = useCallback((e) => {
@@ -99,19 +131,45 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form before loading EmailJS
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      showAlert({
+        show: true,
+        text: "Please fill in all fields",
+        type: "danger",
+      });
+      return;
+    }
+
+    if (!isValidEmail(form.email)) {
+      showAlert({
+        show: true,
+        text: "Please enter a valid email address",
+        type: "danger",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
+      // Load EmailJS only when needed
+      const emailjs = await loadEmailJS();
+      
+      // Create the template parameters object
+      const templateParams = {
+        from_name: form.name,
+        to_name: "Badrinath",
+        from_email: form.email,
+        to_email: "nathb6382@gmail.com",
+        message: form.message,
+      };
+
       await emailjs.send(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          to_name: "Badrinath",
-          from_email: form.email,
-          to_email: "nathb6382@gmail.com",
-          message: form.message,
-        },
+        templateParams,
         process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
       );
 
@@ -122,17 +180,16 @@ const Contact = () => {
         type: "success",
       });
 
-      setTimeout(() => {
-        hideAlert(false);
-        setForm({
-          name: "",
-          email: "",
-          message: "",
-        });
-      }, 3000);
+      // Reset form after successful submission
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
+      
     } catch (error) {
-      setLoading(false);
       console.error(error);
+      setLoading(false);
       showAlert({
         show: true,
         text: "I didn't receive your message 😢",
@@ -181,12 +238,12 @@ const Contact = () => {
             <div className="space-y-8">
               <div className="text-center">
                 <h3 className="text-4xl font-bold bg-textcolor bg-clip-text text-transparent">
-                  Let's talk
+                  Let&#39;s talk
                 </h3>
                 <p className="mt-4 text-anothertextcolor">
-                  Whether you're looking to build a new website, improve your
-                  existing platform, or bring a unique project to life, I'm here
-                  to help.
+                  Whether you&#39;re looking to build a new website, improve
+                  your existing platform, or bring a unique project to life,
+                  I&#39;m here to help.
                 </p>
               </div>
 

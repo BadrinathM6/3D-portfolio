@@ -9,6 +9,7 @@ import React, {
   Suspense,
 } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
+import Image from "next/image";
 import {
   CornerUpRight,
   Contact,
@@ -42,7 +43,7 @@ const iconMap = {
   ChartPie: ChartPie,
 };
 
-const RevealText = ({ children, delay = 0, className }) => {
+const RevealText = ({ children, className }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
@@ -56,7 +57,7 @@ const RevealText = ({ children, delay = 0, className }) => {
       mainControls.start("visible");
       slideControls.start("visible");
     }
-  }, [isInView]);
+  }, [isInView, mainControls, slideControls]);
 
   return (
     <div ref={ref} className="relative overflow-hidden">
@@ -133,13 +134,15 @@ const PodcastShowcase = () => {
     >
       <div className="max-w-6xl mx-auto ">
         <div className="flex items-center gap-4 ">
-          <motion.img
+          <Image
             src="/right arrow.svg"
             alt="Arrow Animation"
-            initial={{ y: -10, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
+            width={32} // Provide width in pixels
+            height={32} // Provide height in pixels
+            // initial={{ y: -10, opacity: 0 }}
+            // whileInView={{ y: 0, opacity: 1 }}
             // viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            // transition={{ duration: 0.5, ease: "easeOut" }}
             className="w-6 h-6 md:w-8 md:h-8"
           />
           <RevealText>
@@ -163,12 +166,12 @@ const PodcastShowcase = () => {
                 className="bg-anothertextcolor p-3 backdrop-filter backdrop-blur-3xl w-fit rounded-lg"
                 style={currentProject.logoStyle}
               >
-                <img
+                <Image
                   src={currentProject.logo}
                   alt="logo"
+                  width={40}
+                  height={40}
                   className="w-10 h-10"
-                  // width={10}
-                  // height={10}
                 />
               </div>
 
@@ -211,7 +214,12 @@ const PodcastShowcase = () => {
                 <div className="flex gap-4">
                   {currentProject.tags.map((tag, index) => (
                     <div key={index} className="tech-logo">
-                      <img src={tag.path} alt={tag.name} />
+                      <Image
+                        src={tag.path}
+                        alt={tag.name}
+                        width={24}
+                        height={24}
+                      />{" "}
                     </div>
                   ))}
                 </div>
@@ -242,9 +250,11 @@ const PodcastShowcase = () => {
                 className="arrow-btn"
                 onClick={() => handleNavigation("previous")}
               >
-                <img
+                <Image
                   src="/left-arrow.png"
                   alt="Left Arrow"
+                  width={40}
+                  height={40}
                   className="w-10 h-10"
                 />
               </button>
@@ -252,9 +262,11 @@ const PodcastShowcase = () => {
                 className="arrow-btn"
                 onClick={() => handleNavigation("next")}
               >
-                <img
+                <Image
                   src="/right-arrow.png"
-                  alt="Right Arrow"
+                  alt="Arrow Animation"
+                  width={40} // Provide width in pixels
+                  height={40} // Provide height in pixels
                   className="w-10 h-10"
                 />
               </button>
@@ -307,5 +319,7 @@ const FeatureCard = React.memo(({ icon, title, description }) => (
     </RevealText>
   </motion.div>
 ));
+
+FeatureCard.displayName = "FeatureCard";
 
 export default React.memo(PodcastShowcase);
