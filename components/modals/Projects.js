@@ -1,20 +1,30 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import { useGLTF, useVideoTexture } from "@react-three/drei";
 import gsap from 'gsap';
-import * as THREE from "three";
+import { MeshStandardMaterial } from "three";
 
-const MODEL_PATH = "/models/pc_in_apple_imac_style_3.glb";
+const MODEL_PATH = "/models/optimized_model.glb";
 
-const Model = React.memo(({ texture = '/textures/project/project1.mp4', direction = null, ...props }) => {
+const Model = React.memo(({ texture = '/textures/project/project1.webm', direction = null, ...props }) => {
   const meshRef = useRef();
-  const { nodes, materials } = useGLTF(MODEL_PATH);
+  const { nodes, materials } = useGLTF(MODEL_PATH, true);
 
   const videoTexture = useVideoTexture(texture, {
     crossOrigin: "anonymous",
     loop: true,
     muted: true,
-    start: true,
+    start: false, // Don't start immediately
+    preload: 'auto'
   });
+
+  useEffect(() => {
+    if (videoTexture && 'requestVideoFrameCallback' in HTMLVideoElement.prototype) {
+      videoTexture.source.data.play();
+    }
+    return () => {
+      videoTexture?.source?.data?.pause();
+    };
+  }, [videoTexture]);
 
   useEffect(() => {
     if (videoTexture) {
@@ -43,25 +53,37 @@ const Model = React.memo(({ texture = '/textures/project/project1.mp4', directio
 
   const screenMaterial = useMemo(() => {
     if (!videoTexture) return null;
-    return new THREE.MeshStandardMaterial({
+    return new MeshStandardMaterial({
       map: videoTexture,
       toneMapped: false,
+      roughness: 0.5, // Add reasonable defaults
+      metalness: 0.1
     });
   }, [videoTexture]);
 
   useEffect(() => {
-    return () => {
+    const cleanup = () => {
       if (materials) {
-        Object.values(materials).forEach(material => material?.dispose?.());
+        Object.values(materials).forEach(material => {
+          if (material.map) material.map.dispose();
+          material.dispose();
+        });
       }
       if (nodes) {
         Object.values(nodes).forEach(node => {
-          node?.geometry?.dispose?.();
+          if (node.geometry) node.geometry.dispose();
         });
       }
-      videoTexture?.dispose?.();
-      screenMaterial?.dispose?.();
+      if (videoTexture) {
+        videoTexture.dispose();
+        videoTexture.source?.data?.pause();
+      }
+      if (screenMaterial) {
+        screenMaterial.dispose();
+      }
     };
+
+    return cleanup;
   }, [materials, nodes, videoTexture, screenMaterial]);
 
   const modelStructure = useMemo(
@@ -269,6 +291,6 @@ const Model = React.memo(({ texture = '/textures/project/project1.mp4', directio
 
 Model.displayName = "Model";
 
-useGLTF.preload("/models/pc_in_apple_imac_style_3.glb");
+useGLTF.preload(MODEL_PATH, true);
 
 export default Model;

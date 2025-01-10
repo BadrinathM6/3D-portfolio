@@ -1,28 +1,44 @@
 "use client";
 
-import React, { Suspense } from "react";
+import React, { useRef, Suspense, useEffect } from "react";
 import { Environment, OrbitControls } from "@react-three/drei";
 import dynamic from "next/dynamic";
 const LazyCanvas = dynamic(() =>
   import("@react-three/fiber").then((mod) => mod.Canvas)
 );
 import CanvasLoader from "./Loader";
+
 const RenderModelProjects = ({ children }) => {
+  const orbitControlsRef = useRef(); // Ref for OrbitControls
+  const cameraPosition = [0, 4, 0]; // Initial camera position
+
+  // Function to reset controls
+  const resetControls = () => {
+    if (orbitControlsRef.current) {
+      orbitControlsRef.current.reset(); // Reset OrbitControls to default position
+    }
+  };
+
+  useEffect(() => {
+    if (orbitControlsRef.current) {
+      orbitControlsRef.current.target.set(0, 0, 0); // Ensure target is centered
+    }
+  }, []);
+
   return (
     <div className="w-full h-full">
       <LazyCanvas
         shadows
         dpr={[1, 2]}
         camera={{
-          position: [0, 4, 0], // Adjusted camera position
-          fov: 60, // Narrower field of view
+          position: cameraPosition,
+          fov: 60,
           near: 0.1,
           far: 1000,
         }}
-        performance={{ min: 0.5 }}
         gl={{
           powerPreference: "high-performance",
-          antialias: true,
+          antialias: true, // Disable if not crucial
           alpha: true,
         }}
       >
@@ -33,17 +49,20 @@ const RenderModelProjects = ({ children }) => {
           <Environment preset="city" />
           {children}
           <OrbitControls
-            enableZoom
-            enablePan
+            ref={orbitControlsRef} // Reference to OrbitControls
+            enableZoom={false}
+            enablePan={false}
             enableRotate
             minPolarAngle={Math.PI / 4}
             maxPolarAngle={Math.PI / 1.5}
-            minDistance={2} // Add minimum zoom distance
-            maxDistance={6} // Add maximum zoom distance
+            minDistance={2}
+            maxDistance={6}
+            onEnd={resetControls} // Reset on interaction end
           />
         </Suspense>
       </LazyCanvas>
     </div>
   );
 };
+
 export default RenderModelProjects;

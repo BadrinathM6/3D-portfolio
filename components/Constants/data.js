@@ -17,7 +17,7 @@ export const myProjects = [
     card_title2: "Reliable Search Functionality",
     card_subtitle2:
       "Allows users to search effortlessly for the products they need.",
-    texture: "/textures/project/project1.mp4",
+    texture: "/textures/project/project1.webm",
     logo: "/project1.png",
     logoStyle: {
       backgroundColor: "#8892b0",
@@ -63,7 +63,7 @@ export const myProjects = [
     card_title2: "Comprehensive Workout Stats",
     card_subtitle2:
       "Track calories burned and monitor your progress with detailed workout analytics.",
-    texture: "/textures/project/project2.mp4",
+    texture: "/textures/project/project2.webm",
     logo: "/project2_logo.png",
     logoStyle: {
       backgroundColor: "#8892b0",

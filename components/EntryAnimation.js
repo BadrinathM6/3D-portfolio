@@ -1,49 +1,8 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import { motion, useAnimation, useInView } from "framer-motion";
-
-const RevealText = ({ children, className }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const mainControls = useAnimation();
-  const slideControls = useAnimation();
-
-  useEffect(() => {
-    if (isInView) {
-      mainControls.start("visible");
-      slideControls.start("visible");
-    }
-  }, [isInView, slideControls, mainControls]);
-
-  return (
-    <div ref={ref} className="relative overflow-hidden">
-      <motion.div
-        variants={{
-          hidden: { opacity: 0, y: 75 },
-          visible: { opacity: 1, y: 0 },
-        }}
-        initial="hidden"
-        animate={mainControls}
-        transition={{ duration: 0.5, delay: 0.25 }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-      <motion.div
-        variants={{
-          hidden: { left: 0 },
-          visible: { left: "100%" },
-        }}
-        initial="hidden"
-        animate={slideControls}
-        transition={{ duration: 0.5, ease: "easeIn" }}
-        className="absolute top-0 left-0 w-full h-full bg-textcolor"
-      />
-    </div>
-  );
-};
+import RevealText from "./Constants/RevealText";
 
 // Preload critical images
 const frameworkIcons = [
@@ -88,71 +47,65 @@ const frameworkIcons = [
   }
 ];
 
+// Constants
+const FRAME_RATE = 1000 / 20;
+const HOVER_STEP = 0.1;
+const HOVER_LIMIT = 0.5;
+const ANIMATION_RADIUS = 40;
+
+// Screen size calculation
+const getScreenSize = (width) => width < 640 ? "sm" : width < 1024 ? "md" : "lg";
+
 const EntryAnimation = () => {
   const [hoverOffsets, setHoverOffsets] = useState([]);
   const [screenSize, setScreenSize] = useState("lg");
-  
-  // Optimize resize listener with debouncing
+
+  const generateSemiCirclePositions = useCallback(() => {
+    const startAngle = -180;
+    const endAngle = 0;
+
+    return frameworkIcons.map((_, index) => {
+      const angle = startAngle + (endAngle - startAngle) * (index / (frameworkIcons.length - 1));
+      const angleInRadians = (angle * Math.PI) / 180;
+      return {
+        x: 50 + ANIMATION_RADIUS * Math.cos(angleInRadians),
+        y: 50 + ANIMATION_RADIUS * Math.sin(angleInRadians),
+        hoverOffset: 0,
+        hoverDirection: 1,
+      };
+    });
+  }, []);
+
   useEffect(() => {
-    let timeoutId;
     const handleResize = () => {
       if (typeof window === "undefined") return;
-      
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        const width = window.innerWidth;
-        setScreenSize(width < 640 ? "sm" : width < 1024 ? "md" : "lg");
-      }, 100);
+      setScreenSize(getScreenSize(window.innerWidth));
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    const resizeObserver = new ResizeObserver(handleResize);
+    resizeObserver.observe(document.body);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(timeoutId);
-    };
+    return () => resizeObserver.disconnect();
   }, []);
 
   useEffect(() => {
-    const generateSemiCirclePositions = () => {
-      const radius = 40;
-      const startAngle = -180;
-      const endAngle = 0;
-
-      return frameworkIcons.map((_, index) => {
-        const angle = startAngle + (endAngle - startAngle) * (index / (frameworkIcons.length - 1));
-        const angleInRadians = (angle * Math.PI) / 180;
-        return {
-          x: 50 + radius * Math.cos(angleInRadians),
-          y: 50 + radius * Math.sin(angleInRadians),
-          hoverOffset: 0,
-          hoverDirection: 1,
-        };
-      });
-    };
-
     setHoverOffsets(generateSemiCirclePositions());
-  }, []);
+  }, [generateSemiCirclePositions]);
 
-  // Optimize animation with requestAnimationFrame
   useEffect(() => {
     let animationFrameId;
     let lastUpdate = 0;
-    const FRAME_RATE = 1000 / 20; // 20 FPS instead of 50ms interval
 
     const updateOffsets = (timestamp) => {
       if (timestamp - lastUpdate >= FRAME_RATE) {
         setHoverOffsets((prev) =>
           prev.map((icon) => {
-            const nextHoverOffset = icon.hoverOffset + 0.1 * icon.hoverDirection;
+            const nextHoverOffset = icon.hoverOffset + HOVER_STEP * icon.hoverDirection;
             return {
               ...icon,
               hoverOffset: nextHoverOffset,
               hoverDirection:
-                nextHoverOffset > 0.5 || nextHoverOffset < -0.5
-                  ? -icon.hoverDirection
-                  : icon.hoverDirection,
+                Math.abs(nextHoverOffset) > HOVER_LIMIT ? -icon.hoverDirection : icon.hoverDirection,
             };
           })
         );
@@ -180,25 +133,25 @@ const EntryAnimation = () => {
         </RevealText>
       </div>
 
-      <div className="mx-auto w-full h-[400px] md:h-[500px] lg:h-[600px] Render-container relative">
-      <div className="relative mx-auto w-[300px] h-[300px] md:w-[500px] md:h-[500px] md:top-14 top-14">
-        <Image
-          src="/man2.png" // Replace with your image path
-          alt="Portfolio Entry Image"
-          layout="responsive"
-          width={400}
-          height={400}
-          priority={true} // Optimized for LCP
-          placeholder="blur" // Better performance
-          blurDataURL="/static/placeholder.webp" // Low-quality placeholder
-          className="rounded-lg shadow-lg"
-        />
-      </div>
+      <div className="mx-auto w-full h-[400px] md:h-[500px] lg:h-[600px] relative">
+        <div className="relative mx-auto w-[300px] h-[300px] md:w-[500px] md:h-[500px] md:top-14 top-14">
+          <Image
+            src="/man2.webp"
+            alt="Portfolio Entry Image"
+            width={400}
+            height={400}
+            priority={true}
+            fetchPriority="high"
+            quality={75}
+            sizes="(max-width: 640px) 300px, (max-width: 1024px) 500px, 400px"
+            className="rounded-lg"
+          />
+        </div>
 
         {hoverOffsets.map((icon, index) => (
           <div
             key={index}
-            className="absolute transition-all duration-500 ease-in-out"
+            className="absolute transition-all duration-500 ease-in-out transform"
             style={{
               left: `${icon.x}%`,
               top: `${icon.y}%`,
@@ -212,8 +165,8 @@ const EntryAnimation = () => {
               height={frameworkIcons[index].sizes[screenSize]}
               priority={frameworkIcons[index].priority}
               fetchPriority={frameworkIcons[index].fetchPriority}
-              className="transition-transform duration-300 hover:scale-125 drop-shadow-lg"
               loading={frameworkIcons[index].priority ? "eager" : "lazy"}
+              className="transition-transform duration-300 hover:scale-125 drop-shadow-lg"
             />
           </div>
         ))}
