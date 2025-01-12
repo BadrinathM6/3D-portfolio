@@ -54,7 +54,7 @@ export const myProjects = [
     subdesc: `
       Buffalo Gym is an advanced fitness application designed to revolutionize your workout experience. Featuring an AI-integrated chat page, it provides personalized meal and food plan suggestions to help you achieve your fitness goals. The app also tracks detailed workout statistics, including calories burned, to keep you motivated and informed on your fitness journey. Buffalo Gym combines cutting-edge technology with comprehensive fitness insights, making it your ultimate fitness companion.
     `,
-    href: "https://www.youtube.com/watch?v=y5vE8y_f_OM",
+    href: "/404Page",
     Icon1_project: "Brain",
     Icon2_project: "ChartPie",
     card_title1: "AI-Integrated Chat Support",

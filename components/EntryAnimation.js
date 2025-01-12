@@ -133,8 +133,8 @@ const EntryAnimation = () => {
         </RevealText>
       </div>
 
-      <div className="mx-auto w-full h-[400px] md:h-[500px] lg:h-[600px] relative">
-        <div className="relative mx-auto w-[300px] h-[300px] md:w-[500px] md:h-[500px] md:top-14 top-14">
+      <div className="mx-auto w-full h-[400px] md:h-[500px] relative">
+        <div className="relative flex justify-center items-start mx-auto w-[300px] h-[300px] md:w-[500px] md:h-[500px] md:top-14 top-14">
           <Image
             src="/man2.webp"
             alt="Portfolio Entry Image"

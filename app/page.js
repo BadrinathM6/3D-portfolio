@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import Loader from "@/components/Constants/customLoader";
 // import CanvasLoader from "@/components/Loader";
 import Header from "@/components/Header";
 import EntryAnimation from "@/components/EntryAnimation";
@@ -10,13 +11,16 @@ const MainSection = dynamic(() => import("@/components/MainSection"), {
 const AboutSection = dynamic(() => import("@/components/AboutSection"), {
   ssr: false,
 });
-const Projects = dynamic(() => 
-  import("@/components/ProjectSection").then(mod => ({
-    default: props => <mod.default {...props} loading={false} />
-  })), {
-  ssr: false,
-  loading: () => <div className="min-h-screen">Loading...</div>
-});
+const Projects = dynamic(
+  () =>
+    import("@/components/ProjectSection").then((mod) => ({
+      default: (props) => <mod.default {...props} loading={false} />,
+    })),
+  {
+    ssr: false,
+    loading: () => <Loader/>,
+  }
+);
 const ContactSection = dynamic(() => import("@/components/ContactSection"), {
   ssr: false,
 });

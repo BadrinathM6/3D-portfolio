@@ -5,6 +5,7 @@ import useAlert from "./Constants/useAlert.js";
 import Alert from "./Alert.js";
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import RevealText from "./Constants/RevealText";
+import Image from "next/image.js";
 
 // Lazy load EmailJS
 const loadEmailJS = async () => {
@@ -153,7 +154,7 @@ const Contact = () => {
   return (
     <LazyMotion features={domAnimation}>
       <section
-        className="relative min-h-screen bg-background p-8 md:ml-20 lg:ml-28 lg:pt-[4.25rem] md:pt-[2.25rem]"
+        className="relative bg-background p-8 md:ml-20 lg:ml-28 lg:pt-[4.25rem] md:pt-[2.25rem]"
         id="contact"
       >
         <div className="max-w-6xl mx-auto">
@@ -162,13 +163,12 @@ const Contact = () => {
             delay={0.2}
           >
             <div className="flex items-center gap-4">
-              <m.img
+              <Image
                 src="/right arrow.svg"
                 alt="Arrow Animation"
-                initial={{ y: -10, opacity: 0 }}
-                whileInView={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
                 className="w-6 h-6 md:w-8 md:h-8"
+                width={32}
+                height={32}
               />
               <p className="text-4xl md:text-4xl font-heading font-bold text-anothertextcolor">
                 Contact
@@ -181,7 +181,7 @@ const Contact = () => {
         {alert.show && <Alert {...alert} />}
 
         <div className="container mx-auto">
-          <div className="flex justify-center items-center min-h-[80vh]">
+          <div className="flex justify-center items-center">
             <m.div
               initial={{ opacity: 0, x: 50 }}
               whileInView={{ opacity: 1, x: 0 }}

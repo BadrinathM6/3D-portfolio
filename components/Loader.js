@@ -72,7 +72,7 @@ const CanvasLoader = ({ modelProgress = 0 }) => {
           className="mt-4 text-sm font-semibold text-anothertextcolor"
         >
           {totalProgress.toFixed(0)}%
-          <span className="block text-xs mt-1 text-gray-400">
+          <span className="block text-xs mt-1 text-gray-400 text-center">
             {getLoadingState(totalProgress)}
           </span>
         </motion.p>

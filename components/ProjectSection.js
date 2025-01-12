@@ -1,15 +1,27 @@
 "use client";
 
-import React, { useEffect, useState, useMemo, useCallback, Suspense } from "react";
+import React, {
+  useEffect,
+  useState,
+  useMemo,
+  useCallback,
+  Suspense,
+} from "react";
 import { domAnimation, LazyMotion, m, useAnimation } from "framer-motion";
 import Image from "next/image";
-import { CornerUpRight, Contact, FolderSearch, Brain, ChartPie } from "lucide-react";
+import {
+  CornerUpRight,
+  Contact,
+  FolderSearch,
+  Brain,
+  ChartPie,
+} from "lucide-react";
 import { myProjects } from "./Constants/data";
 import CanvasLoader from "./Loader";
 import RevealText from "./Constants/RevealText";
 import dynamic from "next/dynamic";
 
-const DeviceShowcase = dynamic(() => import('./DeviceShowcase'), {
+const DeviceShowcase = dynamic(() => import("./DeviceShowcase"), {
   ssr: false,
 });
 
@@ -60,25 +72,28 @@ const PodcastShowcase = () => {
 
   return (
     <LazyMotion features={domAnimation}>
-      <div className="relative min-h-screen bg-background p-8 md:ml-20 lg:ml-28 lg:pt-[1.25rem] pt-[3.25rem]" id="projects">
+      <div
+        className="relative min-h-screen bg-background p-8 md:ml-20 lg:ml-28 lg:pt-[1.25rem] pt-[3.25rem]"
+        id="projects"
+      >
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-4">
-            <Image
-              src="/right arrow.svg"
-              alt="Arrow Animation"
-              width={32}
-              height={32}
-              className="w-6 h-6 md:w-8 md:h-8"
-            />
-            <RevealText>
-              <h3 className="text-4xl md:text-4xl font-heading font-bold text-anothertextcolor">
-                Projects
-              </h3>
-            </RevealText>
-            <div className="h-px bg-lighttextcolor flex-1 max-w-[300px] hidden md:flex" />
-          </div>
+          <RevealText>
+            <div className="flex items-center gap-4">
+              <Image
+                src="/right arrow.svg"
+                alt="Arrow Animation"
+                width={32}
+                height={32}
+                className="w-6 h-6 md:w-8 md:h-8"
+              />
+                <h3 className="text-4xl md:text-4xl font-heading font-bold text-anothertextcolor">
+                  Projects
+                </h3>
+              <div className="h-px bg-lighttextcolor flex-1 max-w-[300px] hidden md:flex" />
+            </div>
+          </RevealText>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center pt-14">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center pt-14">
             {/* Left Content Section */}
             <m.div
               initial={{ opacity: 0, x: -20 }}
@@ -206,9 +221,9 @@ const PodcastShowcase = () => {
               }
               className="relative"
             >
-              <div className="relative w-full h-[290px] md:h-full aspect-square bg-background rounded-xl overflow-hidden">
+              <div className="relative w-full lg:aspect-square bg-background rounded-xl overflow-hidden">
                 <Suspense fallback={<CanvasLoader />}>
-                  <DeviceShowcase 
+                  <DeviceShowcase
                     currentProject={currentProject}
                     animationDirection={projectState.animationDirection}
                   />

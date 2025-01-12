@@ -46,7 +46,7 @@ const MainSection = () => {
           animate="animate"
         >
           <m.a
-            href="mailto:dummy12@gmail.com"
+            href="mailto:badrinathdeveloper@gmail.com"
             className="text-anothertextcolor hover:text-textcolor transition-colors font-inter"
             variants={sidebarVariants}
             whileHover={{ scale: 1.4, rotate: 5 }}
@@ -56,7 +56,7 @@ const MainSection = () => {
             <Mail size={24} />
           </m.a>
           <m.a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/badrinath6/"
             className="text-anothertextcolor hover:text-textcolor transition-colors font-inter"
             variants={sidebarVariants}
             whileHover={{ scale: 1.4, rotate: 5 }}
@@ -66,7 +66,7 @@ const MainSection = () => {
             <Linkedin size={24} />
           </m.a>
           <m.a
-            href="https://github.com"
+            href="https://github.com/BadrinathM6"
             className="text-anothertextcolor hover:text-textcolor transition-colors font-inter"
             variants={sidebarVariants}
             whileHover={{ scale: 1.4, rotate: 5 }}
@@ -80,12 +80,12 @@ const MainSection = () => {
         {/* Main Content with Flex Container */}
         <div className="flex flex-col lg:flex-row items-center justify-between max-w-6xl mx-auto">
           {/* Text Content */}
-          <div className="w-full lg:w-[58%] max-w-3xl md:ml-28 mt-10 lg:ml-28">
+          <div className="w-full lg:w-[58%] max-w-3xl md:ml-20 mt-10 lg:ml-28">
             <m.div
               variants={textVariants}
               initial="initial"
               animate="animate"
-              className="space-y-8"
+              className="space-y-8 md:px-8 lg:px-0"
             >
               <div className="space-y-4">
                 <RevealText
@@ -112,7 +112,7 @@ const MainSection = () => {
 
               {/* SVG for mobile view - positioned after the title */}
               <m.div
-                className="block lg:hidden w-full max-w-xs mx-auto -mt-4 mb-8"
+                className="lg:hidden flex justify-center w-full max-w-xs mx-auto -mt-4 mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
@@ -141,16 +141,22 @@ const MainSection = () => {
               </RevealText>
 
               <RevealText delay={0.8}>
-                <m.a
-                  href="/csv"
-                  className="inline-block px-6 py-2 border-2 border-textcolor text-textcolor hover:bg-[#00c2b8] hover:text-[#1e2025] transition-colors 
-                          rounded font-medium font-mono"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
+                <a
+                  href="https://drive.google.com/file/d/1RkY7D5hXqzqipMtWwxga84YCT9GFqkix/view" // Replace this with your actual resume URL
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Resume-Link"
                 >
-                  CSV
-                </m.a>
+                  <m.button
+                    className="inline-block px-6 py-2 border-2 border-textcolor text-textcolor hover:bg-[#00c2b8] hover:text-[#1e2025] transition-colors 
+                          rounded font-medium font-mono"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                  >
+                    CSV
+                  </m.button>
+                </a>
               </RevealText>
 
               {/* Mobile-only social links */}
@@ -161,7 +167,7 @@ const MainSection = () => {
                 <div className="h-px bg-textcolor flex-1 max-w-[80px]" />
                 <div className="flex gap-8">
                   <m.a
-                    href="mailto:dummy12@gmail.com"
+                    href="mailto:badrinathdeveloper@gmail.com"
                     className="text-anothertextcolor hover:text-textcolor transition-colors"
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
@@ -170,7 +176,7 @@ const MainSection = () => {
                     <Mail size={24} />
                   </m.a>
                   <m.a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/badrinath6/"
                     className="text-anothertextcolor hover:text-textcolor transition-colors"
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}
@@ -179,7 +185,7 @@ const MainSection = () => {
                     <Linkedin size={24} />
                   </m.a>
                   <m.a
-                    href="https://github.com"
+                    href="https://github.com/BadrinathM6"
                     className="text-anothertextcolor hover:text-textcolor transition-colors"
                     whileHover={{ scale: 1.2, rotate: 5 }}
                     whileTap={{ scale: 0.9 }}

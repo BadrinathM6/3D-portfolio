@@ -163,20 +163,27 @@ const Header = () => {
               ))}
             </nav>
 
-            <m.button
-              className="bg-background text-textcolor px-4 py-2 rounded border-2 border-textcolor font-mono"
-              whileHover={{
-                scale: 1.1,
-                backgroundColor: "#00c2b8",
-                color: "#1e2025",
-              }}
-              whileTap={{ scale: 0.9 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+            <a
+              href="https://drive.google.com/file/d/1RkY7D5hXqzqipMtWwxga84YCT9GFqkix/view" // Replace this with your actual resume URL
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Resume-Link"
             >
-              Resume
-            </m.button>
+              <m.button
+                className="bg-background text-textcolor px-4 py-2 rounded border-2 border-textcolor font-mono"
+                whileHover={{
+                  scale: 1.1,
+                  backgroundColor: "#00c2b8",
+                  color: "#1e2025",
+                }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                Resume
+              </m.button>
+            </a>
           </div>
 
           {/* Hamburger Menu Button (Mobile) */}
@@ -218,7 +225,7 @@ const Header = () => {
         <AnimatePresence>
           {isMenuOpen && (
             <m.div
-              className="md:hidden fixed inset-0 top-[73px] bg-background/95 backdrop-blur-sm"
+              className="md:hidden fixed inset-0 top-[73px] backdrop-blur-sm"
               initial="closed"
               animate="open"
               exit="closed"
@@ -240,13 +247,20 @@ const Header = () => {
                     {link.name}
                   </m.a>
                 ))}
-                <m.button
-                  className="bg-background text-textcolor text-xl px-6 py-3 rounded border-2 border-textcolor hover:bg-[#00c2b8] hover:text-[#1e2025] transition-colors mt-8"
-                  variants={navItemVariants}
-                  whileTap={{ scale: 0.95 }}
+                <a
+                  href="https://drive.google.com/file/d/1RkY7D5hXqzqipMtWwxga84YCT9GFqkix/view" // Replace this with your actual resume URL
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Resume-Link"
                 >
-                  Resume
-                </m.button>
+                  <m.button
+                    className="bg-background text-textcolor text-xl px-6 py-3 rounded border-2 border-textcolor hover:bg-[#00c2b8] hover:text-[#1e2025] transition-colors mt-2"
+                    variants={navItemVariants}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Resume
+                  </m.button>
+                </a>
               </nav>
             </m.div>
           )}
