@@ -15,8 +15,10 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Badrinath | Full Stack Developer | Expert Web Developer in Kanchipuram - Portfolio",
-  description: "Discover the portfolio of a highly skilled Full Stack Developer and Web Developer in Kanchipuram. Specializing in modern, responsive web design, and scalable backend solutions. Explore my work to see how I bring ideas to life!",
+  title:
+    "Badrinath | Full Stack Developer | Expert Web Developer in Kanchipuram - Portfolio",
+  description:
+    "Discover the portfolio of a highly skilled Full Stack Developer and Web Developer in Kanchipuram. Specializing in modern, responsive web design, and scalable backend solutions. Explore my work to see how I bring ideas to life!",
 };
 
 export default function RootLayout({
@@ -27,6 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta
+          name="google-site-verification"
+          content="Y-85O6uKIPeXDsk1vg-F_bJHraA5zc9wTJUhv5X5kwQ"
+        />
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body
